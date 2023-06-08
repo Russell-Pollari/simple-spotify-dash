@@ -15,5 +15,6 @@
         "venv/"
     ],
     "rules": {
+        "default-param-last": "off"
     }
 }

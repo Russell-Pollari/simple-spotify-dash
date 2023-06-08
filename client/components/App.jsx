@@ -1,19 +1,21 @@
 import { Container, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { createRoot } from 'react-dom/client';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setToken } from '../actions';
 
-import Login from './components/Login';
-import TopArtists from './components/TopArtists';
+import Login from './Login';
+import TopArtists from './TopArtists';
 
 function App() {
-  const [token, setToken] = useState(null);
+  const token = useSelector((state) => state.token);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetch('/api/spotify-token')
       .then((res) => res.json())
       .then((data) => {
         if (data.token) {
-          setToken(data.token);
+          dispatch(setToken(data.token));
         }
       });
   }, []);
@@ -28,5 +30,4 @@ function App() {
   );
 }
 
-const root = createRoot(document.getElementById('root'));
-root.render(<App />);
+export default App;
