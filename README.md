@@ -1,13 +1,10 @@
 ## Spotify Dash
 
-An ongoing effort to build a custom Spotify UI that I don't hate.
+An ongoing effort to build a Spotify UI that I don't hate.
 
 ### Development
 
-This app runs django on the back end and react on the front end
-
-Install npm packages:
-`npm install`
+This app runs django on the back-end and react on the front-end
 
 Create a virtual env and activate
 
@@ -15,7 +12,7 @@ Create a virtual env and activate
 
 `source venv/bin/activate`
 
-install requirements
+install python requirements
 
 `pip install -r requirements.txt`
 
@@ -27,10 +24,14 @@ SPOTIFY_CLIENT_SECRET=
 SPOTIFY_REDIRECT_URI=
 ```
 
-Build client
+Install npm packages
+
+`npm install`
+
+Build client and watch for changes
 
 `npm run watch`
 
-Start server
+Start dev server
 
 `python server/manage.py runserver`
