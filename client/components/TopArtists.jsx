@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-const TopArtists = () => {
+function TopArtists() {
   const [topArtists, setTopArtists] = useState([]);
 
   useEffect(() => {
-    fetch("/api/top-artists")
+    fetch('/api/top-artists')
       .then((res) => res.json())
       .then((data) => {
         setTopArtists(data.items);
@@ -18,25 +18,25 @@ const TopArtists = () => {
         <div
           key={artist.id}
           style={{
-            display: "inline-block",
-            verticalAlign: "top",
+            display: 'inline-block',
+            verticalAlign: 'top',
             marginRight: 16,
-            width: "512px",
+            width: '512px',
           }}
         >
           <h4>{artist.name}</h4>
-          <div style={{ display: "inline-block" }}>
+          <div style={{ display: 'inline-block' }}>
             <img
               src={artist.images[0].url}
               alt={artist.name}
-              style={{ width: "128px" }}
+              style={{ width: '128px' }}
             />
           </div>
           <div
             style={{
-              display: "inline-block",
-              verticalAlign: "top",
-              marginLeft: "1rem",
+              display: 'inline-block',
+              verticalAlign: 'top',
+              marginLeft: '1rem',
             }}
           >
             {artist.genres.map((genre) => (
@@ -47,6 +47,6 @@ const TopArtists = () => {
       ))}
     </div>
   );
-};
+}
 
 export default TopArtists;

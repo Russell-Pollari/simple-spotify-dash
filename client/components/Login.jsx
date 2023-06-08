@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import { Container, Typography, Box, Button } from "@mui/material";
+import { Container, Box, Button } from '@mui/material';
 
-const Login = () => {
+function Login() {
   const [authUrl, setAuthurl] = useState(null);
 
   useEffect(() => {
-    fetch("/api/auth-url")
+    fetch('/api/auth-url')
       .then((res) => res.json())
       .then((data) => {
         setAuthurl(data.url);
@@ -20,6 +20,6 @@ const Login = () => {
       </Box>
     </Container>
   );
-};
+}
 
 export default Login;

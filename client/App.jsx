@@ -1,15 +1,15 @@
-import { Container, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { createRoot } from "react-dom/client";
+import { Container, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { createRoot } from 'react-dom/client';
 
-import Login from "./components/Login.jsx";
-import TopArtists from "./components/TopArtists.jsx";
+import Login from './components/Login';
+import TopArtists from './components/TopArtists';
 
-const App = () => {
+function App() {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    fetch("/api/spotify-token")
+    fetch('/api/spotify-token')
       .then((res) => res.json())
       .then((data) => {
         if (data.token) {
@@ -26,7 +26,7 @@ const App = () => {
       {token ? <TopArtists /> : <Login />}
     </Container>
   );
-};
+}
 
-root = createRoot(document.getElementById("root"));
+const root = createRoot(document.getElementById('root'));
 root.render(<App />);
