@@ -4,15 +4,11 @@ An ongoing effort to build a Spotify UI that I don't hate.
 
 ### Development
 
-This app runs django on the back-end and react on the front-end
-
-Create a virtual env and activate
+Create a virtual env and install python requirements
 
 `python3 -m venv venv`
 
 `source venv/bin/activate`
-
-install python requirements
 
 `pip install -r requirements.txt`
 
@@ -28,10 +24,6 @@ Install npm packages
 
 `npm install`
 
-Build client and watch for changes
+Run the app
 
-`npm run watch`
-
-Start dev server
-
-`python server/manage.py runserver`
+`npm run dev`

@@ -62,7 +62,6 @@ def get_token(request):
 @api_view(["GET"])
 def get_top_items(request):
     token = request.session["access_token"]
-    print(token)
     res = requests.get(
         f"{BASE_URL}/me/top/artists",
         headers={
