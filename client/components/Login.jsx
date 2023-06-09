@@ -14,9 +14,24 @@ function Login() {
   }, []);
 
   return (
-    <Container>
-      <Box>
-        <Button href={authUrl}>Connect with Spotify</Button>
+    <Container maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Button
+          startIcon={
+            <img src="static/spotify_icon.png" alt="Spotify Logo" width={24} />
+          }
+          variant="contained"
+          href={authUrl}
+        >
+          Connect with Spotify
+        </Button>
       </Box>
     </Container>
   );

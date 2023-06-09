@@ -60,6 +60,12 @@ def get_token(request):
 
 
 @api_view(["GET"])
+def logout(request):
+    request.session.clear()
+    return redirect("/")
+
+
+@api_view(["GET"])
 def get_top_items(request):
     token = request.session["access_token"]
     res = requests.get(

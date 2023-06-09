@@ -1,4 +1,11 @@
-import { Container, Typography } from '@mui/material';
+import {
+  Container,
+  Typography,
+  AppBar,
+  CssBaseline,
+  Toolbar,
+  Button,
+} from '@mui/material';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setToken } from '../actions';
@@ -20,13 +27,30 @@ function App() {
       });
   }, []);
 
+  const logout = () => {
+    fetch('/api/logout');
+    dispatch(setToken(null));
+  };
+
   return (
-    <Container component="main">
-      <Typography component="h1" variant="h6">
-        Spotify dashboard
-      </Typography>
-      {token ? <TopArtists /> : <Login />}
-    </Container>
+    <>
+      <CssBaseline />
+      <AppBar position="static">
+        <Toolbar>
+          <Typography component="div" variant="h6" sx={{ flexGrow: 1 }}>
+            Simple Spotify
+          </Typography>
+          {token && (
+            <Button color="inherit" onClick={logout}>
+              Logout
+            </Button>
+          )}
+        </Toolbar>
+      </AppBar>
+      <Container component="main">
+        {token ? <TopArtists /> : <Login />}
+      </Container>
+    </>
   );
 }
 

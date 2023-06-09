@@ -10,4 +10,5 @@ urlpatterns = [
     path("api/auth-url", views.get_auth_url),
     path("api/spotify-token", views.get_token),
     path("api/top-artists", views.get_top_items),
+    path("api/logout", views.logout),
 ]

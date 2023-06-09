@@ -1,4 +1,32 @@
+import {
+  Typography,
+  Container,
+  Card,
+  CardMedia,
+  CardContent,
+  Grid,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
+
+function ArtistCard({ artist = {} }) {
+  return (
+    <Card sx={{ maxWidth: 345, height: '100%' }}>
+      <CardMedia
+        image={artist.images[0].url}
+        title={artist.name}
+        sx={{ height: 140 }}
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {artist.name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {artist.genres.join(', ')}
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+}
 
 function TopArtists() {
   const [topArtists, setTopArtists] = useState([]);
@@ -12,40 +40,18 @@ function TopArtists() {
   }, []);
 
   return (
-    <div>
-      <h3>Top Artists</h3>
-      {topArtists.map((artist) => (
-        <div
-          key={artist.id}
-          style={{
-            display: 'inline-block',
-            verticalAlign: 'top',
-            marginRight: 16,
-            width: '512px',
-          }}
-        >
-          <h4>{artist.name}</h4>
-          <div style={{ display: 'inline-block' }}>
-            <img
-              src={artist.images[0].url}
-              alt={artist.name}
-              style={{ width: '128px' }}
-            />
-          </div>
-          <div
-            style={{
-              display: 'inline-block',
-              verticalAlign: 'top',
-              marginLeft: '1rem',
-            }}
-          >
-            {artist.genres.map((genre) => (
-              <div key={genre}>{genre}</div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
+    <Container sx={{ padding: 2 }}>
+      <Typography variant="h5" component="h2" gutterBottom>
+        Your Top Artists
+      </Typography>
+      <Grid container spacing={2} sx={{ marginTop: 4 }}>
+        {topArtists.map((artist) => (
+          <Grid item xs={4} key={artist.id}>
+            <ArtistCard artist={artist} />
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
   );
 }
 
