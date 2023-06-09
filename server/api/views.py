@@ -16,7 +16,18 @@ BASE_URL = "https://api.spotify.com/v1"
 SCOPE = "user-read-private user-read-email user-top-read"
 
 
-def index(request):
+def spotify_request(request, endpoint):
+    try:
+        token = request.session["access_token"]
+    except KeyError:
+        return Response({"error": "No token"}, status=400)
+
+    return requests.get(
+        f"{BASE_URL}{endpoint}", headers={"Authorization": "Bearer " + token}
+    )
+
+
+def index(request, **kwargs):
     return render(request, "index.html")
 
 
@@ -46,6 +57,7 @@ def spotify_callback(request):
             "client_secret": CLIENT_SECRET,
         },
     )
+    print(res.json())
     try:
         request.session["access_token"] = res.json()["access_token"]
     except KeyError:
@@ -67,11 +79,11 @@ def logout(request):
 
 @api_view(["GET"])
 def get_top_items(request):
-    token = request.session["access_token"]
-    res = requests.get(
-        f"{BASE_URL}/me/top/artists",
-        headers={
-            "Authorization": "Bearer " + token,
-        },
-    )
+    res = spotify_request(request, "/me/top/artists")
+    return Response(res.json())
+
+
+@api_view(["GET"])
+def artist(request, artist_id):
+    res = spotify_request(request, f"/artists/{artist_id}")
     return Response(res.json())
