@@ -8,28 +8,30 @@ import {
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setToken } from '../actions';
+import { Link, Outlet } from 'react-router-dom';
 
+import { setToken } from '../actions';
 import Login from './Login';
-import TopArtists from './TopArtists';
 
 function App() {
   const token = useSelector((state) => state.token);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('/api/spotify-token')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.token) {
-          dispatch(setToken(data.token));
-        }
-      });
+    // TODO: store and check tokern expiry
+    if (!token) {
+      fetch('/api/spotify-token')
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.token) {
+            dispatch(setToken(data.token));
+          }
+        });
+    }
   }, []);
 
   const logout = () => {
-    fetch('/api/logout');
-    dispatch(setToken(null));
+    fetch('/api/logout').then(() => dispatch(setToken(null)));
   };
 
   return (
@@ -38,7 +40,9 @@ function App() {
       <AppBar position="static">
         <Toolbar>
           <Typography component="div" variant="h6" sx={{ flexGrow: 1 }}>
-            Simple Spotify
+            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+              Simple Spotify
+            </Link>
           </Typography>
           {token && (
             <Button color="inherit" onClick={logout}>
@@ -47,9 +51,7 @@ function App() {
           )}
         </Toolbar>
       </AppBar>
-      <Container component="main">
-        {token ? <TopArtists /> : <Login />}
-      </Container>
+      <Container component="main">{token ? <Outlet /> : <Login />}</Container>
     </>
   );
 }
