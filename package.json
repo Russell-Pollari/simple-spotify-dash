@@ -8,7 +8,7 @@
     "build": "esbuild client/index.jsx --bundle --minify --sourcemap --target=es2015 --outfile=dist/index.js",
     "watch-client": "esbuild client/index.jsx --bundle --minify --sourcemap --target=es2015 --outfile=dist/index.js --watch",
     "dev-server": ". venv/bin/activate && PYTHONUNBUFFERED=1 python server/manage.py runserver",
-    "dev": "concurrently \"npm run dev-server\" \"npm run watch-client\"" 
+    "dev": "concurrently \"npm run dev-server\" \"npm run watch-client\""
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.7",
+    "react-router-dom": "^6.12.1",
     "redux": "^4.2.1"
   },
   "devDependencies": {
