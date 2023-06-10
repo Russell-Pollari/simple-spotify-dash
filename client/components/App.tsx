@@ -6,32 +6,35 @@ import {
   Toolbar,
   Button,
 } from '@mui/material';
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import * as React from 'react';
+import { useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { setToken } from '../actions';
+import { RootState } from '../store';
+import { set, unSet } from '../store' ;
 import Login from './Login';
 
 function App() {
-  const token = useSelector((state) => state.token);
+  const token = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // TODO: store and check tokern expiry
+    // TODO: store and check token expiry
     if (!token) {
       fetch('/api/spotify-token')
         .then((res) => res.json())
         .then((data) => {
           if (data.token) {
-            dispatch(setToken(data.token));
+            console.log('got token', data.token)
+            dispatch(set(data.token));
           }
         });
     }
   }, []);
 
   const logout = () => {
-    fetch('/api/logout').then(() => dispatch(setToken(null)));
+    fetch('/api/logout').then(() => dispatch(unSet()));
   };
 
   return (

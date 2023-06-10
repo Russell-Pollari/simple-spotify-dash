@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
         loader: async () =>
           fetch('/api/top-artists')
             .then((res) => res.json())
-            .then((data) => ({ artists: data.items })),
+            .then((data) => data.items),
       },
       {
         path: '/artists/:artistId',
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-const root = createRoot(document.getElementById('root'));
+const root = createRoot(document.getElementById('root')!);
 root.render(
   <Provider store={store}>
     <RouterProvider router={router} />

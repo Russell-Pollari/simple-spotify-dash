@@ -57,7 +57,6 @@ def spotify_callback(request):
             "client_secret": CLIENT_SECRET,
         },
     )
-    print(res.json())
     try:
         request.session["access_token"] = res.json()["access_token"]
     except KeyError:

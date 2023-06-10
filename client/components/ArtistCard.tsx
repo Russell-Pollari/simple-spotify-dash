@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 import {
   Typography,
@@ -8,7 +8,13 @@ import {
   CardActionArea,
 } from '@mui/material';
 
-function ArtistCard({ artist = {} }) {
+import  { Artist } from '../types';
+
+type Props = {
+  artist: Artist;
+};
+
+function ArtistCard({ artist }: { artist: Artist }) {
   return (
     <Card sx={{ maxWidth: 345, height: '100%' }}>
       <CardActionArea component={Link} to={`/artists/${artist.id}`}>

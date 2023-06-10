@@ -1,9 +1,16 @@
+import * as React from 'react';
 import { Container, List, ListItem, Typography } from '@mui/material';
-import React from 'react';
 import { useLoaderData } from 'react-router-dom';
 
+export type Artist = {
+  id: string,
+  name: string,
+  images: Array<{ url: string }>,
+  genres: Array<string>,
+};
+
 function ArtistPage() {
-  const artist = useLoaderData();
+  const artist = useLoaderData() as Artist;
 
   return (
     <Container sx={{ padding: 2 }}>

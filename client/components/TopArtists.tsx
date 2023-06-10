@@ -1,11 +1,12 @@
-import React from 'react';
+import * as React from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { Typography, Container, Grid } from '@mui/material';
 
+import { Artist } from './ArtistPage';
 import ArtistCard from './ArtistCard';
 
 function TopArtists() {
-  const { artists = [] } = useLoaderData();
+  const artists = [] = useLoaderData() as Artist[];
 
   return (
     <Container sx={{ padding: 2 }}>
