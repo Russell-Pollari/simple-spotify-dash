@@ -1,5 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
-import { To } from 'react-router-dom';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 export type TokenState = {
     token: string | null
@@ -13,7 +13,7 @@ const tokenSlice = createSlice({
     name: 'token',
     initialState,
     reducers: {
-        set: (state, action) => {
+        set: (state, action: PayloadAction<string>) => {
             state.token = action.payload;
         },
         unSet: state => {

@@ -17,14 +17,13 @@ SCOPE = "user-read-private user-read-email user-top-read"
 
 
 def spotify_request(request, endpoint):
-    try:
-        token = request.session["access_token"]
-    except KeyError:
-        return Response({"error": "No token"}, status=400)
+    token = request.session.get("access_token", "")
 
-    return requests.get(
+    response = requests.get(
         f"{BASE_URL}{endpoint}", headers={"Authorization": "Bearer " + token}
     )
+
+    return response
 
 
 def index(request, **kwargs):

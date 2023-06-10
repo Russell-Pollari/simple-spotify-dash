@@ -1,41 +1,10 @@
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
+
 import store from './store';
-
-import App from './components/App';
-import ArtistPage from './components/ArtistPage';
-import TopArtists from './components/TopArtists';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-    children: [
-      {
-        path: '/',
-        element: <TopArtists />,
-        loader: async () =>
-          fetch('/api/top-artists')
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.items) {
-                return data.items;
-              } else {
-                return [];
-              }
-            }),
-      },
-      {
-        path: '/artists/:artistId',
-        element: <ArtistPage />,
-        loader: async ({ params }) =>
-          fetch(`/api/artists/${params.artistId}`).then((res) => res.json()),
-      },
-    ],
-  },
-]);
+import router from './routes';
 
 const root = createRoot(document.getElementById('root')!);
 root.render(

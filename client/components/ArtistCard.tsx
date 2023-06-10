@@ -8,11 +8,7 @@ import {
   CardActionArea,
 } from '@mui/material';
 
-import  { Artist } from '../types';
-
-type Props = {
-  artist: Artist;
-};
+import type { Artist } from '../types';
 
 function ArtistCard({ artist }: { artist: Artist }) {
   return (
