@@ -36,7 +36,11 @@ const router = createBrowserRouter([
         path: '/artists/:artistId',
         element: <ArtistPage />,
         loader: async ({ params }) => {
-          return await dataLoader(`/api/artists/${params.artistId}`);
+          const artist = await dataLoader(`/api/artists/${params.artistId}`);
+          const albums = await dataLoader(
+            `/api/artist-albums/${params.artistId}`
+          );
+          return { artist, albums: albums.items };
         },
       },
     ],

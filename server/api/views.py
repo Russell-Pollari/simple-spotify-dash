@@ -19,6 +19,7 @@ SCOPE = "user-read-private user-read-email user-top-read"
 def spotify_request(request: HttpRequest, endpoint: str) -> requests.models.Response:
     token = request.session.get("access_token", "")
 
+    # TODO handle error responses (401, 403, 429)
     response = requests.get(
         f"{BASE_URL}{endpoint}", headers={"Authorization": "Bearer " + token}
     )
@@ -84,4 +85,10 @@ def get_top_items(request: HttpRequest) -> Response:
 @api_view(["GET"])
 def artist(request: HttpRequest, artist_id: str) -> Response:
     res = spotify_request(request, f"/artists/{artist_id}")
+    return Response(res.json())
+
+
+@api_view(["GET"])
+def artist_albums(request: HttpRequest, artist_id: str) -> Response:
+    res = spotify_request(request, f"/artists/{artist_id}/albums")
     return Response(res.json())
