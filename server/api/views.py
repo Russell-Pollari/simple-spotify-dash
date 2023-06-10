@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
-from rest_framework.decorators import (
-    api_view,
-)
-from rest_framework.response import Response
+from django.shortcuts import render, redirect  # type: ignore
+from rest_framework.decorators import api_view  # type: ignore
+from rest_framework.response import Response  # type: ignore
 import requests
 import os
 from dotenv import load_dotenv
+
+from django.http import HttpRequest, HttpResponse  # type: ignore
 
 load_dotenv()
 
@@ -16,7 +16,7 @@ BASE_URL = "https://api.spotify.com/v1"
 SCOPE = "user-read-private user-read-email user-top-read"
 
 
-def spotify_request(request, endpoint):
+def spotify_request(request: HttpRequest, endpoint: str) -> requests.models.Response:
     token = request.session.get("access_token", "")
 
     response = requests.get(
@@ -26,12 +26,12 @@ def spotify_request(request, endpoint):
     return response
 
 
-def index(request, **kwargs):
+def index(request: HttpRequest, **kwargs) -> HttpResponse:
     return render(request, "index.html")
 
 
 @api_view(["GET"])
-def get_auth_url(request):
+def get_auth_url(request: HttpRequest) -> Response:
     url = (
         "https://accounts.spotify.com/authorize?"
         + "response_type=code"
@@ -43,7 +43,7 @@ def get_auth_url(request):
 
 
 @api_view(["GET"])
-def spotify_callback(request):
+def spotify_callback(request: HttpRequest) -> Response:
     code = request.GET.get("code")
 
     res = requests.post(
@@ -64,24 +64,24 @@ def spotify_callback(request):
 
 
 @api_view(["GET"])
-def get_token(request):
+def get_token(request: HttpRequest) -> Response:
     token = request.session.get("access_token")
     return Response({"token": token})
 
 
 @api_view(["GET"])
-def logout(request):
+def logout(request: HttpRequest) -> Response:
     request.session.clear()
     return redirect("/")
 
 
 @api_view(["GET"])
-def get_top_items(request):
+def get_top_items(request: HttpRequest) -> Response:
     res = spotify_request(request, "/me/top/artists")
     return Response(res.json())
 
 
 @api_view(["GET"])
-def artist(request, artist_id):
+def artist(request: HttpRequest, artist_id: str) -> Response:
     res = spotify_request(request, f"/artists/{artist_id}")
     return Response(res.json())
