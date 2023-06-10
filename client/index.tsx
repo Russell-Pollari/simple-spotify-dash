@@ -19,7 +19,13 @@ const router = createBrowserRouter([
         loader: async () =>
           fetch('/api/top-artists')
             .then((res) => res.json())
-            .then((data) => data.items),
+            .then((data) => {
+              if (data.items) {
+                return data.items;
+              } else {
+                return [];
+              }
+            }),
       },
       {
         path: '/artists/:artistId',

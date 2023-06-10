@@ -6,7 +6,7 @@ import { Artist } from './ArtistPage';
 import ArtistCard from './ArtistCard';
 
 function TopArtists() {
-  const artists = [] = useLoaderData() as Artist[];
+  const artists = useLoaderData() as Artist[];
 
   return (
     <Container sx={{ padding: 2 }}>

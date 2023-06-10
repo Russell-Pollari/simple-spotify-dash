@@ -12,11 +12,11 @@ import { Link, Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from '../store';
-import { set, unSet } from '../store' ;
+import { set, unSet } from '../store';
 import Login from './Login';
 
 function App() {
-  const token = useSelector((state: RootState) => state);
+  const token = useSelector((state: RootState) => state.token);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,7 +26,6 @@ function App() {
         .then((res) => res.json())
         .then((data) => {
           if (data.token) {
-            console.log('got token', data.token)
             dispatch(set(data.token));
           }
         });
