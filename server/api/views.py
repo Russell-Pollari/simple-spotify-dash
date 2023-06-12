@@ -77,8 +77,9 @@ def logout(request: HttpRequest) -> Response:
 
 
 @api_view(["GET"])
-def get_top_items(request: HttpRequest) -> Response:
-    res = spotify_request(request, "/me/top/artists")
+def top_artists(request: HttpRequest) -> Response:
+    time_range = request.GET.get("time_range")
+    res = spotify_request(request, f"/me/top/artists?time_range={time_range}")
     return Response(res.json())
 
 

@@ -10,7 +10,7 @@ const dataLoader = async (url: string) => {
   const result = await fetch(url);
   const data = await result.json();
   if (data.error) {
-    throw new Response('Bad request', {
+    throw new Response(data.error.message, {
       status: data.error.status || 400,
     });
   }
@@ -26,10 +26,6 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <TopArtists />,
-        loader: async () => {
-          const result = await dataLoader('/api/top-artists');
-          return result.items || [];
-        },
         errorElement: <ErrorBoundary />,
       },
       {

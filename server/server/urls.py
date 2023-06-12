@@ -12,7 +12,7 @@ urlpatterns = [
     path("spotify/callback", views.spotify_callback),
     path("api/auth-url", views.get_auth_url),
     path("api/spotify-token", views.get_token),
-    path("api/top-artists", views.get_top_items),
+    path("api/top-artists", views.top_artists),
     path("api/artists/<artist_id>", views.artist),
     path("api/artist-albums/<artist_id>", views.artist_albums),
     path("api/logout", views.logout),
