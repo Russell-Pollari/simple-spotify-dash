@@ -16,4 +16,6 @@ urlpatterns = [
     path("api/artists/<artist_id>", views.artist),
     path("api/artist-albums/<artist_id>", views.artist_albums),
     path("api/logout", views.logout),
+    path("api/favourite/<spotify_item_id>", views.make_favourite),
+    path("api/favourites", views.get_favourites),
 ]

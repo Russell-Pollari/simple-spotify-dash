@@ -12,7 +12,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { setTimeRange } from '../store';
 
-import ArtistCard from './ArtistCard';
+import ArtistGrid from './ArtistGrid';
 import type { Artist } from '../types';
 import type { RootState } from '../store';
 
@@ -48,13 +48,7 @@ function TopArtists() {
           <MenuItem value="long_term">All Time</MenuItem>
         </Select>
       </FormControl>
-      <Grid container spacing={2} sx={{ marginTop: 2 }}>
-        {artists.map((artist) => (
-          <Grid item xs={4} key={artist.id}>
-            <ArtistCard artist={artist} />
-          </Grid>
-        ))}
-      </Grid>
+      <ArtistGrid artists={artists} />
     </Container>
   );
 }

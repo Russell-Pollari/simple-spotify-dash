@@ -14,9 +14,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../store';
 import { set, unSet } from '../store';
 import Login from './Login';
+import ArtistGrid from './ArtistGrid';
+import type { Artist } from '../types';
 
 function App() {
   const { token } = useSelector((state: RootState) => state.token);
+  // TODO: store favourites in redux, and update when user adds/removes
+  const [favourites, setFavourites] = React.useState<Artist[]>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,6 +34,11 @@ function App() {
           }
         });
     }
+    fetch('/api/favourites')
+      .then((res) => res.json())
+      .then((data) => {
+        setFavourites(data.artists);
+      });
   }, []);
 
   const logout = () => {
@@ -53,7 +62,19 @@ function App() {
           )}
         </Toolbar>
       </AppBar>
-      <Container component="main">{token ? <Outlet /> : <Login />}</Container>
+      <Container component="main">
+        {token ? (
+          <div>
+            <Typography variant="h5" component="h2">
+              Your Favourites
+            </Typography>
+            <ArtistGrid artists={favourites} />
+            <Outlet />
+          </div>
+        ) : (
+          <Login />
+        )}
+      </Container>
     </>
   );
 }

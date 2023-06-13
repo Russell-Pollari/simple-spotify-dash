@@ -6,10 +6,12 @@ import {
   CardMedia,
   CardContent,
   CardActionArea,
+  Button,
 } from '@mui/material';
 
 import type { Artist } from '../types';
 
+// TODO: check if is favourite
 function ArtistCard({ artist }: { artist: Artist }) {
   return (
     <Card sx={{ maxWidth: 345, height: '100%' }}>
@@ -28,6 +30,11 @@ function ArtistCard({ artist }: { artist: Artist }) {
           </Typography>
         </CardContent>
       </CardActionArea>
+      <Button
+        onClick={() => fetch(`/api/favourite/${artist.id}`, { method: 'POST' })}
+      >
+        fav
+      </Button>
     </Card>
   );
 }

@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 
 from django.http import HttpRequest, HttpResponse  # type: ignore
+from .models import Favourite
 
 load_dotenv()
 
@@ -57,8 +58,11 @@ def spotify_callback(request: HttpRequest) -> Response:
             "client_secret": CLIENT_SECRET,
         },
     )
+
     try:
         request.session["access_token"] = res.json()["access_token"]
+        profile_data = spotify_request(request, "/me")
+        request.session["spotify_user_id"] = profile_data.json()["id"]
     except KeyError:
         return Response(res.json(), status=400)
     return redirect("/")
@@ -92,4 +96,29 @@ def artist(request: HttpRequest, artist_id: str) -> Response:
 @api_view(["GET"])
 def artist_albums(request: HttpRequest, artist_id: str) -> Response:
     res = spotify_request(request, f"/artists/{artist_id}/albums")
+    return Response(res.json())
+
+
+@api_view(["POST"])
+def make_favourite(request: HttpRequest, spotify_item_id: str) -> Response:
+    spotify_user_id = request.session.get("spotify_user_id")
+    fav = Favourite.objects.get(
+        spotify_item_id=spotify_item_id, spotify_user_id=spotify_user_id
+    )
+    if fav:
+        fav.delete()
+        return Response({"message": "success"})
+
+    Favourite.objects.create(
+        spotify_item_id=spotify_item_id, spotify_user_id=spotify_user_id
+    )
+    return Response({"message": "success"})
+
+
+@api_view(["GET"])
+def get_favourites(request: HttpRequest) -> Response:
+    spotify_user_id = request.session.get("spotify_user_id")
+    favourites = Favourite.objects.filter(spotify_user_id=spotify_user_id)
+    ids = ",".join([favourite.spotify_item_id for favourite in favourites])
+    res = spotify_request(request, f"/artists?ids={ids}")
     return Response(res.json())
