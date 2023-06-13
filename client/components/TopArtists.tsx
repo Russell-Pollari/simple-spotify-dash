@@ -9,19 +9,23 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { setTimeRange } from '../store';
 
 import ArtistCard from './ArtistCard';
 import type { Artist } from '../types';
+import type { RootState } from '../store';
 
 function TopArtists() {
+  const { timeRange } = useSelector((state: RootState) => state.timeRange);
+  const dispatch = useDispatch();
   const [artists, setArtists] = useState<Artist[]>([]);
-  const [timeRange, setTimeRange] = useState<string>('long_term');
 
   useEffect(() => {
     fetch(`/api/top-artists?time_range=${timeRange}`)
       .then((res) => res.json())
       .then((data) => {
-        setArtists(data.items);
+        setArtists(data.items || []);
       });
   }, [timeRange]);
 
@@ -37,7 +41,7 @@ function TopArtists() {
           id="time-range"
           value={timeRange}
           label="Time Range"
-          onChange={(event) => setTimeRange(event.target.value as string)}
+          onChange={(event) => dispatch(setTimeRange(event.target.value))}
         >
           <MenuItem value="short_term">Last Month</MenuItem>
           <MenuItem value="medium_term">Last 6 Months</MenuItem>

@@ -11,12 +11,12 @@ import { useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { RootState } from '../store';
+import type { RootState } from '../store';
 import { set, unSet } from '../store';
 import Login from './Login';
 
 function App() {
-  const token = useSelector((state: RootState) => state.token);
+  const { token } = useSelector((state: RootState) => state.token);
   const dispatch = useDispatch();
 
   useEffect(() => {

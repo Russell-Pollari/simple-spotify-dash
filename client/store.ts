@@ -22,11 +22,27 @@ const tokenSlice = createSlice({
     }
 });
 
+const timeRangeSlice = createSlice({
+    name: 'timeRange',
+    initialState: {
+        timeRange: 'long_term',
+    },
+    reducers: {
+        set: (state, action: PayloadAction<string>) => {
+            state.timeRange = action.payload;
+        }
+    }
+});
+
 const store = configureStore({
-    reducer: tokenSlice.reducer
+    reducer: {
+        token: tokenSlice.reducer,
+        timeRange: timeRangeSlice.reducer,
+    },
 });
 
 export const { set, unSet } = tokenSlice.actions;
+export const { set: setTimeRange } = timeRangeSlice.actions;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
