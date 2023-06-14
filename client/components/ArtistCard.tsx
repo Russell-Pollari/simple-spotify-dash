@@ -6,6 +6,7 @@ import {
   CardMedia,
   CardContent,
   CardActionArea,
+  CardActions,
   Button,
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,7 +23,14 @@ function ArtistCard({ artist }: { artist: Artist }) {
     favourites.filter(({ id }) => id === artist.id).length > 0;
 
   return (
-    <Card sx={{ maxWidth: 345, height: '100%' }}>
+    <Card
+      sx={{
+        maxWidth: 345,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <CardActionArea component={Link} to={`/artists/${artist.id}`}>
         <CardMedia
           image={artist.images[0].url}
@@ -38,14 +46,17 @@ function ArtistCard({ artist }: { artist: Artist }) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <Button
-        onClick={async () => {
-          await fetch(`/api/favourite/${artist.id}`, { method: 'POST' });
-          dispatch(fetchFavourites());
-        }}
-      >
-        {isFavourite ? 'Unfavourite' : 'Favourite'}
-      </Button>
+      <CardActions sx={{ mt: 'auto' }}>
+        <Button
+          size="small"
+          onClick={async () => {
+            await fetch(`/api/favourite/${artist.id}`, { method: 'POST' });
+            dispatch(fetchFavourites());
+          }}
+        >
+          {isFavourite ? 'Unfavourite' : 'Favourite'}
+        </Button>
+      </CardActions>
     </Card>
   );
 }
