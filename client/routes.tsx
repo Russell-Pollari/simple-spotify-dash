@@ -52,7 +52,8 @@ const router = createBrowserRouter([
             return redirect('/dashboard');
           }
 
-          return null;
+          const data = await dataLoader('/api/auth-url');
+          return { authUrl: data.url };
         },
       },
       {

@@ -1,16 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import {
-  Typography,
-  Container,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTimeRange } from '../store';
 
+import PageContainer from './PageContainer';
 import ArtistGrid from './ArtistGrid';
 import { Artist, TimeRange } from '../types';
 import type { RootState } from '../store';
@@ -29,10 +23,7 @@ function TopArtists() {
   }, [timeRange]);
 
   return (
-    <Container sx={{ padding: 2 }}>
-      <Typography variant="h5" component="h2" gutterBottom>
-        Your Top Artists
-      </Typography>
+    <PageContainer title="Top Artists">
       <FormControl>
         <InputLabel id="time-range-label">Time Range</InputLabel>
         <Select
@@ -50,7 +41,7 @@ function TopArtists() {
         </Select>
       </FormControl>
       <ArtistGrid artists={artists} />
-    </Container>
+    </PageContainer>
   );
 }
 

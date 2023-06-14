@@ -1,18 +1,10 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useLoaderData } from 'react-router-dom';
 
 import { Container, Box, Button } from '@mui/material';
 
 function Login() {
-  const [authUrl, setAuthurl] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch('/api/auth-url')
-      .then((res) => res.json())
-      .then((data) => {
-        setAuthurl(data.url);
-      });
-  }, []);
+  const { authUrl } = useLoaderData() as { authUrl: string };
 
   return (
     <Container maxWidth="xs">

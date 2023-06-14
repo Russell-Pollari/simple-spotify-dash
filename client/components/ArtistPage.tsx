@@ -11,6 +11,7 @@ import { useLoaderData } from 'react-router-dom';
 
 import type { Artist, Album } from '../types';
 import { OpenInNew } from '@mui/icons-material';
+import PageContainer from './PageContainer';
 
 function ArtistPage() {
   const { artist, albums } = useLoaderData() as {
@@ -19,12 +20,9 @@ function ArtistPage() {
   };
 
   return (
-    <Container sx={{ padding: 2 }}>
+    <PageContainer title={artist.name}>
       <Box sx={{ display: 'flex' }}>
         <Box>
-          <Typography component="h2" variant="h5" gutterBottom>
-            {artist.name}
-          </Typography>
           <img src={artist.images[0].url} alt={artist.name} height={256} />
           <Box sx={{ marginBottom: 1 }}>
             <Link href={artist.external_urls.spotify} target="_blank">
@@ -76,7 +74,7 @@ function ArtistPage() {
             })}
         </Box>
       </Box>
-    </Container>
+    </PageContainer>
   );
 }
 
