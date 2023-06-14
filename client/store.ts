@@ -11,7 +11,6 @@ const tokenSlice = createSlice({
     initialState,
     reducers: {
         set: (state, action: PayloadAction<string>) => {
-            console.log('set token', action.payload);
             state.access_token = action.payload;
         },
         unSet: state => {
@@ -47,7 +46,7 @@ const favouritesSlice = createSlice({
         }
     },
     extraReducers(builder) {
-        builder.addCase(fetchFavourites.fulfilled, (state, action) => {
+        builder.addCase(fetchFavourites.fulfilled, (state, action: PayloadAction<Artist[]>) => {
             state = action.payload;
             return state;
         });
@@ -65,7 +64,6 @@ const store = configureStore({
 
 export const { set: setToken, unSet } = tokenSlice.actions;
 export const { set: setTimeRange } = timeRangeSlice.actions;
-export const { set: setFavourites } = favouritesSlice.actions;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

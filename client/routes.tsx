@@ -8,7 +8,7 @@ import ArtistPage from './components/ArtistPage';
 import TopArtists from './components/TopArtists';
 import Favourites from './components/Favourites';
 import store, { fetchFavourites } from './store';
-import { setToken, setFavourites } from './store';
+import { setToken } from './store';
 
 const dataLoader = async (url: string) => {
   const result = await fetch(url);
