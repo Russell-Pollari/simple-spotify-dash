@@ -68,6 +68,11 @@ function ArtistPage() {
                     <Typography component="p" variant="body1">
                       {album.release_date}
                     </Typography>
+                    <Box sx={{ marginBottom: 1 }}>
+                      <Link href={album.external_urls.spotify} target="_blank">
+                        Open in Spotify <OpenInNew />
+                      </Link>
+                    </Box>
                   </Box>
                 </Box>
               );

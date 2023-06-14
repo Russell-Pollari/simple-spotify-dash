@@ -13,7 +13,7 @@ export type Album = {
     release_date: string;
     genres: string[];
     album_type: string;
-    exernal_urls: { spotify: string };
+    external_urls: { spotify: string };
 };
 
 export type SpotifyToken = {
