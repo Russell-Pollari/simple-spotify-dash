@@ -6,7 +6,7 @@ import type { Artist } from '../types';
 
 function TopArtists({ artists = [] }: { artists: Artist[] }) {
   return (
-    <Container sx={{ padding: 2 }}>
+    <Container>
       <Grid container spacing={2} sx={{ marginTop: 2 }}>
         {artists.map((artist) => (
           <Grid item xs={4} key={artist.id}>

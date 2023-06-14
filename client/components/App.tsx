@@ -5,6 +5,13 @@ import {
   CssBaseline,
   Toolbar,
   Button,
+  Drawer,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Box,
 } from '@mui/material';
 import * as React from 'react';
 import { Link, Outlet } from 'react-router-dom';
@@ -21,10 +28,18 @@ function App() {
     fetch('/api/logout').then(() => dispatch(unSet()));
   };
 
+  const drawerWidth = 240;
+
   return (
-    <>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="static">
+      <AppBar
+        position="fixed"
+        sx={{
+          width: `calc(100% - ${drawerWidth}px)`,
+          ml: `${drawerWidth}px`,
+        }}
+      >
         <Toolbar>
           <Typography component="div" variant="h6" sx={{ flexGrow: 1 }}>
             <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -38,10 +53,38 @@ function App() {
           )}
         </Toolbar>
       </AppBar>
-      <Container component="main">
+      <Drawer
+        variant="permanent"
+        anchor="left"
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+      >
+        <Toolbar />
+        <Divider />
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton component={Link} to="/">
+              <ListItemText primary="Home" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component={Link} to="/top-artists">
+              <ListItemText primary="Top Artists" />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Drawer>
+      <Box component="main" sx={{ flexGrow: 1 }}>
+        <Toolbar />
         <Outlet />
-      </Container>
-    </>
+      </Box>
+    </Box>
   );
 }
 
