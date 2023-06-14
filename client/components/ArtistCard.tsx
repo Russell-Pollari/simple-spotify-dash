@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Typography,
   Card,
@@ -13,6 +13,8 @@ import type { Artist } from '../types';
 
 // TODO: check if is favourite
 function ArtistCard({ artist }: { artist: Artist }) {
+  const navigate = useNavigate();
+
   return (
     <Card sx={{ maxWidth: 345, height: '100%' }}>
       <CardActionArea component={Link} to={`/artists/${artist.id}`}>
@@ -31,7 +33,10 @@ function ArtistCard({ artist }: { artist: Artist }) {
         </CardContent>
       </CardActionArea>
       <Button
-        onClick={() => fetch(`/api/favourite/${artist.id}`, { method: 'POST' })}
+        onClick={async () => {
+          await fetch(`/api/favourite/${artist.id}`, { method: 'POST' });
+          navigate(0);
+        }}
       >
         fav
       </Button>

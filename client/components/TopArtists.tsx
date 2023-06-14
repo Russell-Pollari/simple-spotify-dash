@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import {
   Typography,
   Container,
-  Grid,
   FormControl,
   InputLabel,
   Select,
@@ -13,11 +12,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setTimeRange } from '../store';
 
 import ArtistGrid from './ArtistGrid';
-import type { Artist } from '../types';
+import { Artist, TimeRange } from '../types';
 import type { RootState } from '../store';
 
 function TopArtists() {
-  const { timeRange } = useSelector((state: RootState) => state.timeRange);
+  const timeRange = useSelector((state: RootState) => state.timeRange);
   const dispatch = useDispatch();
   const [artists, setArtists] = useState<Artist[]>([]);
 
@@ -41,7 +40,9 @@ function TopArtists() {
           id="time-range"
           value={timeRange}
           label="Time Range"
-          onChange={(event) => dispatch(setTimeRange(event.target.value))}
+          onChange={(event) =>
+            dispatch(setTimeRange(event.target.value as TimeRange))
+          }
         >
           <MenuItem value="short_term">Last Month</MenuItem>
           <MenuItem value="medium_term">Last 6 Months</MenuItem>

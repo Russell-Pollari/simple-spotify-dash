@@ -7,7 +7,10 @@ urlpatterns = [
     # views
     path("admin/", admin.site.urls),
     path("", views.index),
+    # TODO: better solution for this, use regex?
     path("artists/<artist_id>", views.index),  # use client side routing
+    path("dashboard", views.index),  # use client side routing
+    path("top-artists", views.index),  # use client side routing
     # api
     path("spotify/callback", views.spotify_callback),
     path("api/auth-url", views.get_auth_url),

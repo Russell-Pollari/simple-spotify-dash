@@ -1,17 +1,32 @@
 import * as React from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, redirect } from 'react-router-dom';
 
 import ErrorBoundary from './components/ErrorBoundary';
 import App from './components/App';
+import Login from './components/Login';
 import ArtistPage from './components/ArtistPage';
 import TopArtists from './components/TopArtists';
+import Favourites from './components/Favourites';
+import store from './store';
+import { setToken } from './store';
 
 const dataLoader = async (url: string) => {
   const result = await fetch(url);
   const data = await result.json();
+
+  // Auth error, go to login
+  if (data?.error?.status === 400) {
+    throw new Response('', {
+      status: 302,
+      headers: {
+        Location: '/',
+      },
+    });
+  }
+
   if (data.error) {
     throw new Response(data.error.message, {
-      status: data.error.status || 400,
+      status: data.error.status || 500,
     });
   }
   return data;
@@ -25,8 +40,32 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
+        element: <Login />,
+        loader: async () => {
+          if (store.getState().token.access_token) {
+            return redirect('/dashboard');
+          }
+
+          const { token } = await dataLoader('/api/spotify-token');
+          if (token) {
+            store.dispatch(setToken(token));
+            return redirect('/dashboard');
+          }
+
+          return null;
+        },
+      },
+      {
+        path: '/dashboard',
+        element: <Favourites />,
+        loader: async () => {
+          const favourites = await dataLoader('/api/favourites');
+          return { favourites: favourites.artists };
+        },
+      },
+      {
+        path: '/top-artists',
         element: <TopArtists />,
-        errorElement: <ErrorBoundary />,
       },
       {
         path: '/artists/:artistId',
