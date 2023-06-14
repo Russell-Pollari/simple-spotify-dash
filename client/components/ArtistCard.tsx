@@ -8,12 +8,18 @@ import {
   CardActionArea,
   Button,
 } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchFavourites } from '../store';
 
 import type { Artist } from '../types';
+import type { RootState, AppDispatch } from '../store';
 
-// TODO: check if is favourite
 function ArtistCard({ artist }: { artist: Artist }) {
-  const navigate = useNavigate();
+  const favourites = useSelector((state: RootState) => state.favourites);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const isFavourite =
+    favourites.filter(({ id }) => id === artist.id).length > 0;
 
   return (
     <Card sx={{ maxWidth: 345, height: '100%' }}>
@@ -35,9 +41,10 @@ function ArtistCard({ artist }: { artist: Artist }) {
       <Button
         onClick={async () => {
           await fetch(`/api/favourite/${artist.id}`, { method: 'POST' });
+          dispatch(fetchFavourites());
         }}
       >
-        fav
+        {isFavourite ? 'Unfavourite' : 'Favourite'}
       </Button>
     </Card>
   );

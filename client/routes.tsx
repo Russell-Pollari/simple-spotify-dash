@@ -7,8 +7,8 @@ import Login from './components/Login';
 import ArtistPage from './components/ArtistPage';
 import TopArtists from './components/TopArtists';
 import Favourites from './components/Favourites';
-import store from './store';
-import { setToken } from './store';
+import store, { fetchFavourites } from './store';
+import { setToken, setFavourites } from './store';
 
 const dataLoader = async (url: string) => {
   const result = await fetch(url);
@@ -59,8 +59,8 @@ const router = createBrowserRouter([
         path: '/dashboard',
         element: <Favourites />,
         loader: async () => {
-          const favourites = await dataLoader('/api/favourites');
-          return { favourites: favourites.artists };
+          store.dispatch(fetchFavourites());
+          return null;
         },
       },
       {

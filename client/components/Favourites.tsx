@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { useLoaderData } from 'react-router-dom';
 import { Container, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 import ArtistGrid from './ArtistGrid';
-import type { Artist } from '../types';
+import type { RootState } from '../store';
 
 function Favourites() {
-  const { favourites } = useLoaderData() as { favourites: Artist[] };
+  const favourites = useSelector((state: RootState) => state.favourites);
 
   return (
     <Container sx={{ padding: 2 }}>
