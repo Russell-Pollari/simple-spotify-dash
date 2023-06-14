@@ -100,25 +100,29 @@ def artist_albums(request: HttpRequest, artist_id: str) -> Response:
 
 
 @api_view(["POST"])
-def make_favourite(request: HttpRequest, spotify_item_id: str) -> Response:
+def favourite(request: HttpRequest, spotify_item_id: str) -> Response:
     spotify_user_id = request.session.get("spotify_user_id")
-    fav = Favourite.objects.get(
+    existing_favs = Favourite.objects.filter(
         spotify_item_id=spotify_item_id, spotify_user_id=spotify_user_id
     )
-    if fav:
-        fav.delete()
-        return Response({"message": "success"})
+    if len(existing_favs) > 0:
+        for fav in existing_favs:
+            fav.delete()
+        return Response({"message": "favourite removed"})
 
     Favourite.objects.create(
         spotify_item_id=spotify_item_id, spotify_user_id=spotify_user_id
     )
-    return Response({"message": "success"})
+    return Response({"message": "favourite added"})
 
 
 @api_view(["GET"])
-def get_favourites(request: HttpRequest) -> Response:
+def favourites(request: HttpRequest) -> Response:
     spotify_user_id = request.session.get("spotify_user_id")
     favourites = Favourite.objects.filter(spotify_user_id=spotify_user_id)
+    if len(favourites) == 0:
+        return Response({"artists": []})
     ids = ",".join([favourite.spotify_item_id for favourite in favourites])
+
     res = spotify_request(request, f"/artists?ids={ids}")
     return Response(res.json())

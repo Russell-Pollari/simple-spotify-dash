@@ -35,7 +35,6 @@ function ArtistCard({ artist }: { artist: Artist }) {
       <Button
         onClick={async () => {
           await fetch(`/api/favourite/${artist.id}`, { method: 'POST' });
-          navigate(0);
         }}
       >
         fav
