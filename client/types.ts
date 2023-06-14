@@ -3,6 +3,7 @@ export type Artist = {
     name: string;
     images: Array<{ url: string }>,
     genres: string[];
+    external_urls: { spotify: string };
 };
 
 export type Album = {
@@ -12,6 +13,7 @@ export type Album = {
     release_date: string;
     genres: string[];
     album_type: string;
+    exernal_urls: { spotify: string };
 };
 
 export type SpotifyToken = {

@@ -1,8 +1,16 @@
 import * as React from 'react';
-import { Box, Container, List, ListItem, Typography } from '@mui/material';
+import {
+  Box,
+  Container,
+  Link,
+  List,
+  ListItem,
+  Typography,
+} from '@mui/material';
 import { useLoaderData } from 'react-router-dom';
 
 import type { Artist, Album } from '../types';
+import { OpenInNew } from '@mui/icons-material';
 
 function ArtistPage() {
   const { artist, albums } = useLoaderData() as {
@@ -13,10 +21,18 @@ function ArtistPage() {
   return (
     <Container sx={{ padding: 2 }}>
       <Box sx={{ display: 'flex' }}>
-        <div>
-          <img src={artist.images[0].url} alt={artist.name} height={256} />
-          <Typography component="h2" variant="h6">
+        <Box>
+          <Typography component="h2" variant="h5" gutterBottom>
             {artist.name}
+          </Typography>
+          <img src={artist.images[0].url} alt={artist.name} height={256} />
+          <Box sx={{ marginBottom: 1 }}>
+            <Link href={artist.external_urls.spotify} target="_blank">
+              Open in Spotify <OpenInNew />
+            </Link>
+          </Box>
+          <Typography component="h3" variant="h6">
+            Genres
           </Typography>
           <Typography component="p" variant="body1">
             <List>
@@ -25,7 +41,7 @@ function ArtistPage() {
               ))}
             </List>
           </Typography>
-        </div>
+        </Box>
         <Box sx={{ paddingLeft: 4 }}>
           <Typography component="h3" variant="h6">
             Albums
