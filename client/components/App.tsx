@@ -12,16 +12,20 @@ import {
   ListItemButton,
   ListItemText,
   Box,
+  IconButton,
 } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import * as React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import type { RootState } from '../store';
-import { unSet } from '../store';
+import { unSet, setMenu } from '../store';
 
 function App() {
   const { access_token } = useSelector((state: RootState) => state.token);
+  const { mobileOpen } = useSelector((state: RootState) => state.menu);
+
   const dispatch = useDispatch();
 
   const logout = () => {
@@ -30,18 +34,55 @@ function App() {
 
   const drawerWidth = 240;
 
+  const handleDrawerToggle = () => {
+    dispatch(setMenu(!mobileOpen));
+  };
+
+  const drawer = (
+    <div>
+      <Toolbar />
+      <Divider />
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/">
+            <ListItemText primary="Home" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/top-artists">
+            <ListItemText primary="Top Artists" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </div>
+  );
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
-          width: `calc(100% - ${drawerWidth}px)`,
-          ml: `${drawerWidth}px`,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
         }}
       >
         <Toolbar>
-          <Typography component="div" variant="h6" sx={{ flexGrow: 1 }}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{
+              mr: 2,
+              display: {
+                sm: 'none',
+              },
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography component="div" variant="h6">
             <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
               Simple Spotify
             </Link>
@@ -53,34 +94,57 @@ function App() {
           )}
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        anchor="left"
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      >
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            display: {
+              xs: 'block',
+              sm: 'none',
+            },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: {
+              xs: 'none',
+              sm: 'block',
+            },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
+          }}
+          open
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+      <Box
+        component="main"
         sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: drawerWidth,
-            boxSizing: 'border-box',
+          flexGrow: 1,
+          p: 3,
+          width: {
+            sm: `calc(100% - ${drawerWidth}px)`,
           },
         }}
       >
-        <Toolbar />
-        <Divider />
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton component={Link} to="/">
-              <ListItemText primary="Home" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component={Link} to="/top-artists">
-              <ListItemText primary="Top Artists" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1 }}>
         <Toolbar />
         <Outlet />
       </Box>

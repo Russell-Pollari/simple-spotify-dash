@@ -30,6 +30,18 @@ const timeRangeSlice = createSlice({
     }
 });
 
+const menuSlice = createSlice({
+    name: 'menu',
+    initialState: {
+        mobileOpen: false,
+    },
+    reducers: {
+        set: (state, action: PayloadAction<boolean>) => {
+            state.mobileOpen = action.payload;
+        }
+    }
+});
+
 export const fetchFavourites = createAsyncThunk('favourites/fetchFavourites', async () => {
     const response = await fetch('/api/favourites');
     const data = await response.json();
@@ -58,12 +70,14 @@ const store = configureStore({
     reducer: {
         token: tokenSlice.reducer,
         timeRange: timeRangeSlice.reducer,
+        menu: menuSlice.reducer,
         favourites: favouritesSlice.reducer,
     },
 });
 
 export const { set: setToken, unSet } = tokenSlice.actions;
 export const { set: setTimeRange } = timeRangeSlice.actions;
+export const { set: setMenu } = menuSlice.actions;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
