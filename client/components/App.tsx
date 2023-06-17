@@ -29,10 +29,14 @@ function App() {
   const dispatch = useDispatch();
 
   const logout = () => {
-    fetch('/api/logout').then(() => dispatch(unSet()));
+    fetch('/api/logout')
+      .then(() => dispatch(unSet()))
+      .then(() => {
+        window.location.href = '/';
+      });
   };
 
-  const drawerWidth = 240;
+  const drawerWidth = access_token ? 240 : 0;
 
   const handleDrawerToggle = () => {
     dispatch(setMenu(!mobileOpen));
@@ -68,21 +72,23 @@ function App() {
         }}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{
-              mr: 2,
-              display: {
-                sm: 'none',
-              },
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="div" variant="h6">
+          {access_token && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{
+                mr: 2,
+                display: {
+                  sm: 'none',
+                },
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+          <Typography component="div" variant="h6" sx={{ flexGrow: 1 }}>
             <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
               Simple Spotify
             </Link>
@@ -94,47 +100,49 @@ function App() {
           )}
         </Toolbar>
       </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      >
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: {
-              xs: 'block',
-              sm: 'none',
-            },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              width: drawerWidth,
-            },
-          }}
+      {access_token && (
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: {
-              xs: 'none',
-              sm: 'block',
-            },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              width: drawerWidth,
-            },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
+          <Drawer
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true,
+            }}
+            sx={{
+              display: {
+                xs: 'block',
+                sm: 'none',
+              },
+              '& .MuiDrawer-paper': {
+                boxSizing: 'border-box',
+                width: drawerWidth,
+              },
+            }}
+          >
+            {drawer}
+          </Drawer>
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: {
+                xs: 'none',
+                sm: 'block',
+              },
+              '& .MuiDrawer-paper': {
+                boxSizing: 'border-box',
+                width: drawerWidth,
+              },
+            }}
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Box>
+      )}
       <Box
         component="main"
         sx={{
