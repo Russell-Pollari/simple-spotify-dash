@@ -5,3 +5,5 @@ dist
 .env
 db.sqlite3
 .mypy_cache
+
+staticfiles

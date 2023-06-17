@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "esbuild ./client/index.tsx --bundle --minify --sourcemap --target=es2015 --outfile=dist/index.js",
-    "watch-client": "esbuild ./client/index.tsx --bundle --minify --sourcemap --target=es2015 --outfile=dist/index.js --watch",
+    "build-server": ". venv/bin/activate && pip install -r requirements.txt && python server/manage.py collectstatic --noinput && python server/manage.py migrate",
+    "dev-client": "esbuild ./client/index.tsx --bundle --minify --sourcemap --target=es2015 --outfile=dist/index.js --watch",
     "dev-server": ". venv/bin/activate && PYTHONUNBUFFERED=1 python server/manage.py runserver",
-    "dev": "concurrently \"npm run dev-server\" \"npm run watch-client\""
+    "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\""
   },
   "author": "",
   "license": "ISC",
